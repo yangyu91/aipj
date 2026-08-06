@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIPJ · 引导式逆向工程与授权渗透测试 Skill</title>
+<meta name="description" content="AIPJ — 覆盖二进制/固件/APK 逆向、游戏逆向、网络协议逆向、授权 Web 渗透测试、DDoS 压测、登录爬虫生成的引导式安全 Skill。">
+<style>
+  :root{
+    --bg:#0a0e14; --bg2:#0f1620; --card:#121b27; --card2:#16212f;
+    --line:#1e2b3c; --txt:#e6edf3; --mut:#8b98a9; --dim:#5c6a7d;
+    --acc:#39d98a; --acc2:#22d3ee; --warn:#fbbf24; --danger:#f87171;
+    --grad:linear-gradient(135deg,#39d98a 0%,#22d3ee 100%);
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--acc2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  /* hero */
+  header.hero{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(900px 500px at 80% -10%,rgba(34,211,238,.10),transparent),
+      radial-gradient(700px 400px at 10% 0%,rgba(57,217,138,.10),transparent),
+      var(--bg);
+    border-bottom:1px solid var(--line);
+    padding:84px 0 64px;
+  }
+  .hero .tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:var(--acc);border:1px solid #1f3d2e;background:#0e1a14;padding:6px 12px;border-radius:999px;margin-bottom:22px}
+  .hero .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+  .hero h1{font-size:clamp(44px,8vw,84px);font-weight:800;letter-spacing:-2px;line-height:.95;margin-bottom:18px}
+  .hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{font-size:clamp(16px,2.2vw,20px);color:var(--mut);max-width:640px;margin-bottom:30px}
+  .badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
+  .badge{font-size:13px;font-family:var(--mono);color:var(--mut);border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:8px}
+  .badge b{color:var(--txt);font-weight:600}
+  .activate{display:inline-flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 20px;font-family:var(--mono)}
+  .activate .k{color:var(--acc);font-weight:700;font-size:18px}
+  .activate .lbl{color:var(--dim);font-size:13px}
+  /* platforms card */
+  .platforms{display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin-top:18px;font-size:14px}
+  .platforms .lbl{color:var(--dim);font-family:var(--mono);font-size:13px;letter-spacing:.5px}
+  .platforms .pl{display:inline-flex;align-items:center;gap:6px;color:var(--txt);font-weight:500}
+  .platforms .pl.link{color:var(--acc2)}
+  .platforms .pl.link:hover{text-decoration:underline}
+  .platforms .sep{color:var(--dim)}
+  .platforms .emoji{font-size:15px}
+  /* install card */
+  .install{display:inline-flex;align-items:center;gap:0;margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:100%}
+  .install .body{padding:14px 18px;min-width:0}
+  .install .lbl{display:block;color:var(--dim);font-family:var(--mono);font-size:13px;letter-spacing:.5px;margin-bottom:6px}
+  .install .cmd{display:block;font-family:var(--mono);font-size:14px;color:var(--txt);line-height:1.6;word-break:break-all}
+  .install .cmd .url{color:var(--acc)}
+  .install .copy{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;align-self:stretch;border:none;border-left:1px solid var(--line);background:#0c141d;color:var(--mut);font-family:var(--mono);font-size:13px;padding:0 16px;cursor:pointer;transition:background .15s,color .15s}
+  .install .copy:hover{background:#11202c;color:var(--acc)}
+  .install .copy.done{color:var(--acc)}
+  /* sections */
+  section{padding:72px 0;border-bottom:1px solid var(--line)}
+  .sec-head{margin-bottom:40px}
+  .sec-head .num{font-family:var(--mono);font-size:13px;color:var(--acc2);letter-spacing:2px}
+  .sec-head h2{font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.5px;margin-top:6px}
+  .sec-head p{color:var(--mut);margin-top:8px;max-width:620px}
+  /* feature grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:transform .15s,border-color .15s,background .15s}
+  .card:hover{transform:translateY(-3px);border-color:#2a3b52;background:var(--card2)}
+  .card .ic{font-size:22px;margin-bottom:12px;display:block}
+  .card h3{font-size:16px;font-weight:600;margin-bottom:8px}
+  .card p{font-size:14px;color:var(--mut);line-height:1.6}
+  .card .chip{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--acc2);background:#0c1a22;border:1px solid #163040;padding:2px 8px;border-radius:6px;margin-top:12px}
+  .card.game{border-color:#2a2236}
+  .card.game .ic{color:#c084fc}
+  /* workflow */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+  .flow .step{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:14px;font-weight:500}
+  .flow .step b{color:var(--acc);font-family:var(--mono);margin-right:6px}
+  .flow .arr{color:var(--dim);font-family:var(--mono)}
+  /* commands table */
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--mono);font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;background:var(--bg2)}
+  tr:last-child td{border-bottom:none}
+  td.cmd{font-family:var(--mono);color:var(--acc);white-space:nowrap}
+  td .auth{font-size:11px;font-family:var(--mono);padding:2px 8px;border-radius:6px;margin-left:8px}
+  td .auth.full{color:var(--danger);background:#2a1414;border:1px solid #3d1f1f}
+  td .auth.edu{color:var(--warn);background:#2a2410;border:1px solid #3d3217}
+  tbody tr:hover{background:var(--card2)}
+  /* tech stack */
+  .stack{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .stack .grp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .stack .grp h4{font-size:13px;font-family:var(--mono);color:var(--acc2);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+  .stack .grp ul{list-style:none}
+  .stack .grp li{font-size:14px;color:var(--mut);padding:5px 0;display:flex;align-items:center;gap:8px}
+  .stack .grp li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--acc);flex-shrink:0}
+  .stack .grp li b{color:var(--txt);font-weight:500}
+  /* footer */
+  footer{padding:48px 0 60px;text-align:center}
+  footer .disc{max-width:680px;margin:0 auto 22px;font-size:13px;color:var(--dim);border:1px dashed var(--line);border-radius:12px;padding:16px 22px}
+  footer .links{display:flex;justify-content:center;gap:20px;font-size:14px}
+  footer .copy{color:var(--dim);font-size:12px;margin-top:18px;font-family:var(--mono)}
+  @media(max-width:640px){.hero{padding:60px 0 44px}.flow .arr{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag"><span class="dot"></span> ACTIVE · Reverse Flow Skill</span>
+    <h1><span class="g">AIPJ</span></h1>
+    <p class="lead">引导式逆向工程与授权渗透测试 Skill —— 覆盖二进制 / 固件 / 移动应用 / 游戏逆向 / 网络协议 / Web 渗透 / DDoS 压测 / 登录爬虫,按「分析 → 报告 → 逆向 → 深度逆向 → 漏洞研判 → 用户选择下一步」推进。</p>
+    <div class="badges">
+      <span class="badge">逆向工程 <b>RE</b></span>
+      <span class="badge">Web 渗透 <b>Pentest</b></span>
+      <span class="badge">游戏逆向 <b>Game</b></span>
+      <span class="badge">协议逆向 <b>Protocol</b></span>
+      <span class="badge">自学习 <b>Evolution</b></span>
+    </div>
+    <div class="activate">
+      <span class="lbl">激活口令 →</span>
+      <span class="k">实干模式</span>
+    </div>
+    <div class="platforms">
+      <span class="lbl">已支持的平台</span>
+      <span class="pl">Codex</span>
+      <span class="sep">/</span>
+      <span class="pl">Trae</span>
+      <span class="sep">/</span>
+      <a class="pl link" href="https://yangyu91.github.io/aipj-wb/" target="_blank" rel="noopener">WorkBuddy<span class="emoji">🔗</span></a>
+    </div>
+    <div class="install">
+      <div class="body">
+        <span class="lbl">复制并发送给你的 AI</span>
+        <span class="cmd">安装并部署这个skill：<br><span class="url">https://github.com/yangyu91/aipj</span></span>
+      </div>
+      <button class="copy" onclick="copyInstall(this,'安装并部署这个skill：\nhttps://github.com/yangyu91/aipj')"><span>📋</span><span class="txt">复制</span></button>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">01 / FEATURES</div>
+      <h2>核心能力</h2>
+      <p>从静态/动态分析到漏洞研判与报告交付,覆盖完整安全研究链路。</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <span class="ic">🔍</span>
+        <h3>二进制 / 固件逆向</h3>
+        <p>ELF/PE/Mach-O 反汇编与反编译,固件解包与文件系统还原,补丁差异(patch diffing)与根因分析。</p>
+        <span class="chip">Ghidra · IDA · radare2</span>
+      </div>
+      <div class="card">
+        <span class="ic">📱</span>
+        <h3>移动应用逆向</h3>
+        <p>APK 反编译,Android native ELF/SO 分析,smali 修改,iOS 应用分析,从偏移量生成完整 C++ AIDE/NDK 工程。</p>
+        <span class="chip">jadx · apktool · NDK</span>
+      </div>
+      <div class="card game">
+        <span class="ic">🎮</span>
+        <h3>游戏逆向</h3>
+        <p>透视/Wallhack、自瞄/Aimbot、无后坐力/No-recoil、显血/ESP 定位;内核驱动 .ko 与 ioctl 分析;进程注入。</p>
+        <span class="chip">view-proj · entity · kernel</span>
+      </div>
+      <div class="card">
+        <span class="ic">🌐</span>
+        <h3>网络协议逆向</h3>
+        <p>抓包分析,消息格式与状态机还原,协议重放,加密还原,全自动测试流程编排。</p>
+        <span class="chip">tcpdump · Wireshark · scapy</span>
+      </div>
+      <div class="card">
+        <span class="ic">🛡️</span>
+        <h3>授权 Web 渗透测试</h3>
+        <p>7-Phase 攻击链:被动侦察 → 指纹识别 → CVE 匹配 → 定向利用 → 标准路径 → 横向移动 → 数据提取与报告。</p>
+        <span class="chip">SQLi · XSS · dirb · brute</span>
+      </div>
+      <div class="card">
+        <span class="ic">🗺️</span>
+        <h3>资产测绘与攻击面勘察</h3>
+        <p>Phase 0.5 前置资产勘察：DNS 历史解析、CT 证书 SAN 关联、FoFa/Quake/Hunter/Censys 空间测绘、源站暴露与 CDN 绕过、WAF 识别与大 Body 阈值绕过、反向代理链路追踪，输出去重资产清单并标记无 WAF 入口。</p>
+        <span class="chip">FoFa · DNS-history · SAN · WAF · chain</span>
+      </div>
+      <div class="card">
+        <span class="ic">⚡</span>
+        <h3>DDoS 压力测试</h3>
+        <p>SYN/UDP/ACK/ICMP/HTTP Flood、Slowloris、混合攻击,速率与时长受控,自动生成韧性测试报告。</p>
+        <span class="chip">hping3 · siege · wrk</span>
+      </div>
+      <div class="card">
+        <span class="ic">🕷️</span>
+        <h3>登录逆向爬虫生成</h3>
+        <p>分析登录流程与 JS 加密,还原 CSRF/token,生成可独立运行的 Python 爬虫脚本,支持无视 robots.txt 发现路径。</p>
+        <span class="chip">requests · CryptoJS · pyca</span>
+      </div>
+      <div class="card">
+        <span class="ic">📑</span>
+        <h3>漏洞研判与报告</h3>
+        <p>证据驱动的漏洞报告,可利用性评估,风险/漏洞候选排序,HTML 交付物打包,含 DDoS 测试章节。</p>
+        <span class="chip">evidence · triage · report</span>
+      </div>
+      <div class="card">
+        <span class="ic">✅</span>
+        <h3>漏洞复现验证</h3>
+        <p>所有漏洞进入报告前必须实弹复现，拒绝幻觉与垃圾漏洞；扫描器无利用方法、纯版本匹配、理论存在但不可复现的一律丢弃。目标不可达时自动切换 HTTP/SOCKS 代理重试。</p>
+        <span class="chip">reproduce · anti-hallucination · proxy</span>
+      </div>
+      <div class="card">
+        <span class="ic">🧬</span>
+        <h3>自学习进化</h3>
+        <p>学习触发器、知识存储、外部知识获取、自我诊断与模式匹配,持续沉淀到本地知识库。</p>
+        <span class="chip">learn · evolve · self-diag</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">02 / WORKFLOW</div>
+      <h2>逆向工作流</h2>
+      <p>加载 skill 后以「实干模式」激活,按以下阶段推进,每个阶段结束提供编号下一步菜单。</p>
+    </div>
+    <div class="flow">
+      <div class="step"><b>01</b>分析</div>
+      <span class="arr">→</span>
+      <div class="step"><b>02</b>报告</div>
+      <span class="arr">→</span>
+      <div class="step"><b>03</b>逆向</div>
+      <span class="arr">→</span>
+      <div class="step"><b>04</b>深度逆向</div>
+      <span class="arr">→</span>
+      <div class="step"><b>05</b>漏洞研判</div>
+      <span class="arr">→</span>
+      <div class="step"><b>06</b>用户选择下一步</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">03 / COMMANDS</div>
+      <h2>指令参考</h2>
+      <p>自然语言驱动的指令映射,口令与白名单指令控制授权范围与测试模式。</p>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>指令</th><th>授权范围</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cmd">实干模式</td><td>—</td><td>激活逆向模式,进入完整工作流</td></tr>
+          <tr><td class="cmd">白名单 {url}</td><td><span class="auth full">完全授权</span></td><td>将目标记为完全授权,进入完整 Web 渗透攻击链(侦察/利用/后渗透/横向移动)</td></tr>
+          <tr><td class="cmd">教育src白名单 {url}</td><td><span class="auth edu">edu.md 受限</span></td><td>按《教育漏洞报告平台规则》进行无害化验证与 0~10 评分,不拖库/不跳板/不留后门</td></tr>
+          <tr><td class="cmd">DDoS测试 / 压力测试</td><td><span class="auth full">完全授权</span></td><td>对白名单目标执行受控压测(默认 1000pps / 60s,上限 10000pps / 300s)</td></tr>
+          <tr><td class="cmd">抓包 / 协议逆向</td><td>—</td><td>收集数据包,还原消息格式与状态机</td></tr>
+          <tr><td class="cmd">重放</td><td>—</td><td>捕获合法消息并重发</td></tr>
+          <tr><td class="cmd">登录逆向 / 生成爬虫</td><td>—</td><td>分析登录与 JS 加密,生成可独立运行的 Python 爬虫</td></tr>
+          <tr><td class="cmd">加密还原</td><td>—</td><td>在 Python 中复刻客户端哈希/加密</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="num">04 / TECH STACK</div>
+      <h2>技术栈</h2>
+      <p>Python 脚本引擎驱动,集成主流逆向与渗透工具链。</p>
+    </div>
+    <div class="stack">
+      <div class="grp">
+        <h4>Python 脚本引擎</h4>
+        <ul>
+          <li><b>create_case</b> · 案例初始化</li>
+          <li><b>auto_pentest</b> · 自动渗透编排</li>
+          <li><b>triage_artifact</b> · 证据分诊</li>
+          <li><b>report_from_triage</b> · 报告生成</li>
+          <li><b>package_deliverables</b> · 交付物打包</li>
+          <li><b>generate_login_crawler</b> · 爬虫脚手架</li>
+          <li><b>tool_audit</b> · 工具可用性审计</li>
+          <li><b>learn</b> · 自学习命令</li>
+        </ul>
+      </div>
+      <div class="grp">
+        <h4>逆向工具链</h4>
+        <ul>
+          <li><b>Ghidra</b> · 反编译</li>
+          <li><b>IDA Pro</b> · 反汇编</li>
+          <li><b>radare2</b> · 分析框架</li>
+          <li><b>jadx / apktool</b> · APK</li>
+          <li><b>binwalk</b> · 固件解包</li>
+        </ul>
+      </div>
+      <div class="grp">
+        <h4>Web 渗透工具</h4>
+        <ul>
+          <li><b>nmap</b> · 端口扫描</li>
+          <li><b>sqlmap</b> · SQL 注入</li>
+          <li><b>dirb / gobuster</b> · 目录爆破</li>
+          <li><b>hydra</b> · 密码爆破</li>
+          <li><b>Burp / mitmproxy</b> · 代理</li>
+        </ul>
+      </div>
+      <div class="grp">
+        <h4>压测 / 依赖</h4>
+        <ul>
+          <li><b>hping3</b> · 包构造</li>
+          <li><b>scapy</b> · Python 包构造</li>
+          <li><b>siege / wrk / ab</b> · HTTP 压测</li>
+          <li><b>requests</b> · HTTP 库</li>
+          <li><b>beautifulsoup4</b> · 解析</li>
+          <li><b>pycryptodome</b> · 加密</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="disc">⚠️ 免责声明:本项目仅用于合法范围内测试。使用时请确保在授权的沙盒环境中操作,如出现其余意外与本项目无关。DDoS 测试为破坏性操作,仅限自有基础设施或已获书面授权的测试环境。</div>
+    <div class="links">
+      <a href="https://github.com/yangyu91/aipj" target="_blank" rel="noopener">GitHub 仓库</a>
+      <a href="https://github.com/yangyu91/aipj-wb" target="_blank" rel="noopener">aipj-wb(无游戏逆向)</a>
+    </div>
+    <div class="copy">AIPJ · Reverse Flow Skill · yangyu91</div>
+  </div>
+</footer>
+
+<script>
+function copyInstall(btn,text){
+  var done=function(){btn.classList.add('done');btn.querySelector('.txt').textContent='已复制';
+    setTimeout(function(){btn.classList.remove('done');btn.querySelector('.txt').textContent='复制';},1800);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(function(){fallbackCopy(text,done);});
+  }else{fallbackCopy(text,done);}
+}
+function fallbackCopy(text,cb){
+  var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();try{document.execCommand('copy');cb();}catch(e){}document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
