@@ -3,3 +3,15 @@ __pycache__/
 *.pyc
 cases/
 deliverables/
+
+# 测试产物 / POC 文件,不应进入仓库历史
+exploit_sms_test.py
+zzx_poc.py
+zzx_report.md
+zzx_ouchn_pentest.zip
+zzx_output/
+*_poc.py
+*_report.md
+*_pentest.zip
+*_output/
+
