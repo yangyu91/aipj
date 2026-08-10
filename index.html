@@ -88,7 +88,6 @@
   td.cmd{font-family:var(--mono);color:var(--acc);white-space:nowrap}
   td .auth{font-size:11px;font-family:var(--mono);padding:2px 8px;border-radius:6px;margin-left:8px}
   td .auth.full{color:var(--danger);background:#2a1414;border:1px solid #3d1f1f}
-  td .auth.edu{color:var(--warn);background:#2a2410;border:1px solid #3d3217}
   tbody tr:hover{background:var(--card2)}
   /* tech stack */
   .stack{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
@@ -258,7 +257,6 @@
         <tbody>
           <tr><td class="cmd">实干模式</td><td>—</td><td>激活逆向模式,进入完整工作流</td></tr>
           <tr><td class="cmd">白名单 {url}</td><td><span class="auth full">完全授权</span></td><td>将目标记为完全授权,进入完整 Web 渗透攻击链(侦察/利用/后渗透/横向移动)</td></tr>
-          <tr><td class="cmd">教育src白名单 {url}</td><td><span class="auth edu">edu.md 受限</span></td><td>按《教育漏洞报告平台规则》进行无害化验证与 0~10 评分,不拖库/不跳板/不留后门</td></tr>
           <tr><td class="cmd">DDoS测试 / 压力测试</td><td><span class="auth full">完全授权</span></td><td>对白名单目标执行受控压测(默认 1000pps / 60s,上限 10000pps / 300s)</td></tr>
           <tr><td class="cmd">抓包 / 协议逆向</td><td>—</td><td>收集数据包,还原消息格式与状态机</td></tr>
           <tr><td class="cmd">重放</td><td>—</td><td>捕获合法消息并重发</td></tr>
