@@ -471,6 +471,7 @@ Treat every task as a case. Default phase order:
 - `references/web-pentest.md` (New)
 - `references/network-reversing.md` (New)
 - `references/ddos-testing.md` (New)
+- `references/nginx-reverse-proxy.md` (New - Nginx 反向代理测试技巧:本地代理/Host头伪造/Header注入/多目标路由/配合sqlmap与Burp)
 - `references/asset-mapping.md` (资产测绘与攻击面勘察:源站暴露/DNS历史/证书关联/FoFa/大Body绕过/WAF/链路)
 
 ## Scripts
